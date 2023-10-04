@@ -2,18 +2,17 @@
 
 A Terraform module for [Kernel Virtual Machines](https://www.linux-kvm.org/)
 (KVM/[libvirt](https://libvirt.org/)) utilizing
-[terraform-provider-libvirt](https://github.com/dmacvicar/terraform-provider-libvirt/)
-by [dmacvicar](https://github.com/dmacvicar/).
+[terraform-provider-libvirt](https://github.com/dmacvicar/terraform-provider-libvirt/).
 
 ## Description
 
 The module allows creating and provisioning virtual machine fleets using
 different mechanisms after implementing a manageable underlying infrastructure.
 
-It is composed of two modules:
+It is composed of two modules actually:
 
-* `kvm-common`: creates an storage pool and defines a network. Module call was
-appended to `provider.tf` for the sake simplicity.
+* `kvm-common`: creates a storage pool and defines a network. The module call
+was appended to `provider.tf` for the sake of simplicity.
 * `kvm`: runs per VM (or VM group) and adds volumes, prepares the cloud-init
 image/s, renders the required templates and creates the domain/s.
 
@@ -40,7 +39,7 @@ sudo mv terraform /usr/local/bin/terraform
 ## Configuration
 
 `main.tf` holds the specification for our deployment. The files under
-`examples` can be renamed and used to that purpose straight away.
+`examples/` can be renamed and used to that purpose straight away.
 
 ### Input variables
 
@@ -61,7 +60,7 @@ sudo mv terraform /usr/local/bin/terraform
 
 ### Implementing
 
-The infrastructure can be planned, applied and destroyed running
+The infrastructure can be planned, applied and destroyed by means of
 
 ```
 terraform init
@@ -70,7 +69,7 @@ terraform apply -auto-approve
 terraform destroy -auto-approve
 ```
 
-During that process, Terraform will use `cloud-init` to create a privileged
+During creation Terraform will use `cloud-init` to create a privileged
 deployment account inside the VMs and provide the SSH key found in
 `keys/id_rsa.pub`, so as to prepare the guest systems to be accessed by
 further provisioning systems.
@@ -110,7 +109,7 @@ module "guests" {
 }
 ```
 
-Created three VMs
+Which created three VMs
 
 ```
 [root@host deploy]# virsh list
@@ -134,7 +133,7 @@ total 2.7G
 -rw-r--r--. 1 qemu qemu 899M Oct  4 00:42 yw6q.qcow2
 ```
 
-Please, browse the `examples` folder for further scripts.
+Please, browse the `examples/` folder for further scripts.
 
 ## References
 
