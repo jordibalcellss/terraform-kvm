@@ -52,7 +52,7 @@ resource "libvirt_domain" "domain" {
   }
   
   network_interface {
-    network_name = "network"
+    bridge = var.bridge_iface
   }
 
   console {

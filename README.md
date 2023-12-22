@@ -47,6 +47,13 @@ sudo mv terraform /usr/local/bin/terraform
 
 ### Input variables
 
+#### main
+
+| Name | Type | Description | Default |
+| - | - | - | - |
+| deploy_account | `string` | Deployment account username | `deploy` |
+| host_server | `string` | Host server IP address | `""` |
+
 #### kvm
 
 | Name | Type | Description | Default |
@@ -63,7 +70,7 @@ sudo mv terraform /usr/local/bin/terraform
 | dns_2 | `string` | Secondary nameserver | `""` |
 | deploy_account | `string` | Deployment account username | `deploy` |
 | deploy_account_pwd | `string` | Deployment account password | `""` |
-| host_server | `string` | Host server IP address | `""` |
+| bridge_interface | `string` | Host bridge interface name | `"br0"` |
 
 #### kvm-common
 
