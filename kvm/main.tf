@@ -66,4 +66,8 @@ resource "libvirt_domain" "domain" {
     listen_type = "none"
     autoport = true
   }
+
+  cpu {
+    mode = "host-passthrough"
+  }
 }
