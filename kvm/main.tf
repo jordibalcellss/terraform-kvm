@@ -9,8 +9,8 @@ terraform {
 resource "libvirt_volume" "volume" {
   name = "${var.hostname}.qcow2"
   pool = "disks"
-  source = "https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2"
-  format = "qcow2"
+  base_volume_name = "base.qcow2"
+  size = var.size
 }
 
 resource "libvirt_cloudinit_disk" "commoninit" {

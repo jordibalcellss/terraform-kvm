@@ -11,10 +11,14 @@ different mechanisms after implementing a manageable underlying infrastructure.
 
 It is composed of two modules actually:
 
-* `kvm-common`: creates a storage pool and defines a network. The module call
-was appended to `provider.tf` for the sake of simplicity.
-* `kvm`: runs per VM (or VM group) and adds volumes, prepares the cloud-init
-image/s, renders the required templates and creates the domain/s.
+* `kvm-common`: creates a storage pool and defines a base volume. The module
+call was appended to `provider.tf` for the sake of simplicity.
+* `kvm`: runs per VM (or VM group) and adds child volumes, prepares the
+cloud-init image/s, renders the required templates and creates the domain/s.
+
+## Compatibility
+
+Tested under CentOS 7 and AlmaLinux 9.
 
 ## Requirements
 
@@ -43,13 +47,16 @@ sudo mv terraform /usr/local/bin/terraform
 
 ### Input variables
 
+#### kvm
+
 | Name | Type | Description | Default |
 | - | - | - | - |
 | hostname | `string` | | `guest` |
 | domain | `string` | Search domain | `local` |
 | memory | `number` | Memory in megabytes | `512` |
 | vcpu | `number` | Number of virtual cores | `1` |
-| method | `string` | Address assign method, eiher `static` or `dhcp` | `dhcp` |
+| size | `number` | Virtual disk size in bytes | `16 GB` |
+| method | `string` | Address assign method, either `static` or `dhcp` | `dhcp` |
 | address | `string` | IP address in CIDR notation | `""` |
 | gateway | `string` | Default gateway | `""` |
 | dns_1 | `string` | Primary nameserver | `""` |
@@ -57,6 +64,13 @@ sudo mv terraform /usr/local/bin/terraform
 | deploy_account | `string` | Deployment account username | `deploy` |
 | deploy_account_pwd | `string` | Deployment account password | `""` |
 | host_server | `string` | Host server IP address | `""` |
+
+#### kvm-common
+
+| Name | Type | Description | Default |
+| - | - | - | - |
+| pool_path | `string` | Virtual disk path | `/mnt/kvm/disks` |
+| image | `string` | Source qcow2 base image URL | `AlmaLinux 9.3` |
 
 ### Implementing
 
@@ -123,14 +137,13 @@ Which created three VMs
 Alongside their volumes
 
 ```
-[root@host deploy]# ls -lh /mnt/kvm/disks/
-total 2.7G
--rw-r--r--. 1 qemu qemu 366K Oct  4 00:41 adym-commoninit.iso
--rw-r--r--. 1 qemu qemu 898M Oct  4 00:42 adym.qcow2
--rw-r--r--. 1 qemu qemu 366K Oct  4 00:41 e4r3-commoninit.iso
--rw-r--r--. 1 qemu qemu 897M Oct  4 00:42 e4r3.qcow2
--rw-r--r--. 1 qemu qemu 366K Oct  4 00:41 yw6q-commoninit.iso
--rw-r--r--. 1 qemu qemu 899M Oct  4 00:42 yw6q.qcow2
+/mnt/kvm/disks/base.qcow2
+/mnt/kvm/disks/adym-commoninit.iso
+/mnt/kvm/disks/adym.qcow2
+/mnt/kvm/disks/e4r3-commoninit.iso
+/mnt/kvm/disks/e4r3.qcow2
+/mnt/kvm/disks/yw6q-commoninit.iso
+/mnt/kvm/disks/yw6q.qcow2
 ```
 
 Please, browse the `examples/` folder for further scripts.

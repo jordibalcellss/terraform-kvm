@@ -9,7 +9,14 @@ terraform {
 resource "libvirt_pool" "disks" {
   name = "disks"
   type = "dir"
-  path = "/mnt/kvm/disks"
+  path = var.pool_path
+}
+
+resource "libvirt_volume" "base_volume" {
+  name = "base.qcow2"
+  pool = "disks"
+  source = var.image
+  format = "qcow2"
 }
 
 resource "libvirt_network" "network" {

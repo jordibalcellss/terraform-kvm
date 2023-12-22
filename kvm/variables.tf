@@ -22,6 +22,12 @@ variable "vcpu" {
   description = "Number of virtual cores"
 }
 
+variable "size" {
+  default = 17179869184
+  type = number
+  description = "Virtual disk size in bytes (defaults to 16 GB)"
+}
+
 variable "method" {
   default = "dhcp"
   type = string
