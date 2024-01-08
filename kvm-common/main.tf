@@ -18,10 +18,3 @@ resource "libvirt_volume" "base_volume" {
   source = var.image
   format = "qcow2"
 }
-
-resource "libvirt_network" "network" {
-  name = "network"
-  mode = "bridge"
-  bridge = "br0"
-  autostart = "true"
-}
